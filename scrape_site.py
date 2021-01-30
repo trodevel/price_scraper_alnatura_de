@@ -62,25 +62,32 @@ def harmonize_link( link ):
 
 def determine_categories( driver ):
 
-    # somehow the following doesn't work, so use the helper
-    #div = driver.find_element_by_class_name( 'home-page-categories home-page-categories-collapsed' )
-    div = helpers.find_element_by_tag_and_class_name( driver, 'div', 'home-page-categories home-page-categories-collapsed' )
+    div = driver.find_element_by_class_name( 'top-level-categories-teaser-list' )
 
     if div == None:
         print( "FATAL: cannot find categories" )
         exit()
 
-    i2 = div.find_element_by_class_name( 'home-page-category-tiles' )
+    i1 = div.find_element_by_class_name( 'top-level-categories-teaser-list__container' )
 
-    elements = i2.find_elements_by_class_name( 'home-page-category-tile' )
+    i2 = i1.find_element_by_class_name( 'top-level-categories-teaser-list__items' )
+
+    elements = i2.find_elements_by_class_name( 'top-level-categories-teaser-list__item' )
 
     print( "INFO: found {} categories".format( len( elements ) ) )
 
     links = dict()
 
     for s in elements:
-        link = s.get_attribute( 'href' )
-        name = s.text
+
+        s2 = s.find_element_by_tag_name( "a" )
+
+        link = s2.get_attribute( 'href' )
+
+        s3 = s2.find_element_by_class_name( 'top-level-category-teaser__content' )
+        s4 = s3.find_element_by_class_name( 'top-level-category-teaser__title' )
+
+        name = s4.text
 
         link = harmonize_link( link )
 
@@ -300,9 +307,9 @@ accept_banner( driver )
 
 helpers.sleep(5)
 
-exit()
-
 links = determine_categories( driver )
+
+exit()
 
 num_links = len( links )
 
