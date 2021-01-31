@@ -181,21 +181,19 @@ def extract_handle_from_url( url ):
 
 def parse_page( driver, f, category_handle, category_name, subcategory_handle, subcategory_name ):
 
-    content = driver.find_element_by_id( 'search-service-content' )
+    d1 = driver.find_element_by_css_selector( "div[class='search-results-container container']" )
 
-    if content == None:
-        print( "FATAL: cannot find content" )
-        exit()
+    d2 = d1.find_element_by_css_selector( "div[class='row search-results-wrapper']" )
 
-    elements = content.find_elements_by_class_name( 'search-service-productDetailsWrapper' )
+    elements = d2.find_elements_by_class_name( 'search-results-item' )
 
     print( "INFO: found {} elements".format( len( elements ) ) )
 
-    for e in elements:
-        p = product_parser.parse_product( e )
-        line = category_handle + ';' + subcategory_handle + ';' + category_name + ';' + subcategory_name + ';' + p + "\n"
-        f.write( line )
-        print( '.', end='', flush=True )
+#    for e in elements:
+#        p = product_parser.parse_product( e )
+#        line = category_handle + ';' + subcategory_handle + ';' + category_name + ';' + subcategory_name + ';' + p + "\n"
+#        f.write( line )
+#        print( '.', end='', flush=True )
 
     print()
 
@@ -216,8 +214,6 @@ def parse_subcategory( driver, f, category_handle, category_name, subcategory_li
     page = 1
 
     print( "INFO: parsing page {} / {}".format( page, num_pages ) )
-
-    exit()
 
     parse_page( driver, f, category_handle, category_name, subcategory_handle, subcategory_name )
 
