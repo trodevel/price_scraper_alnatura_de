@@ -146,38 +146,24 @@ def determine_number_of_pages( driver ):
     try:
 
         element = WebDriverWait(driver, 15).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "search-service-paginationContainer"))
+            EC.presence_of_element_located((By.CLASS_NAME, "pagination-wrapper"))
             )
 
-        i = driver.find_element_by_class_name( 'search-service-paginationContainer' )
+        i1 = driver.find_element_by_class_name( 'pagination-wrapper' )
 
-        #helpers.dump_elements_by_tag_name( i, 'div' )
+        i2 = i1.find_element_by_id( 'pagination' )
 
-        # somehow the following doesn't work, so use the helper
-        #div = i.find_element_by_class_name( 'search-service-paginationPagesContainer search-service-paginationPagesContainer' )
+        active = i2.find_element_by_class_name( 'active_page' )
 
-        div = helpers.find_element_by_tag_and_class_name( i, 'div', 'search-service-paginationPagesContainer search-service-paginationPagesContainer' )
-
-        if div == None:
-            print( "FATAL: cannot find pagination container" )
-            exit()
-
-        #helpers.dump_elements_by_tag_name( div, 'form' )
-
-        elems = div.find_elements_by_tag_name( 'form' )
+        elems = i2.find_elements_by_class_name( 'page_button' )
 
         if len( elems ) == 0:
-            print( "FATAL: cannot find pages" )
-            exit();
+            print( "WARNING: no multiple pages found, using active page" )
+            return int( active.text )
+
         last = elems[-1]
 
-        #print( last )
-
-        #helpers.dump_elements_by_tag_name( last, 'button' )
-
-        button = last.find_element_by_tag_name( 'button' )
-
-        return int( button.text )
+        return int( last.text )
 
     except:
 
@@ -223,8 +209,6 @@ def parse_subcategory( driver, f, category_handle, category_name, subcategory_li
 
     helpers.wait_for_page_load( driver )
 
-    exit()
-
     num_pages = determine_number_of_pages( driver )
 
     print( "INFO: number of pages {} on {}".format( num_pages, subcategory_link ) )
@@ -232,6 +216,8 @@ def parse_subcategory( driver, f, category_handle, category_name, subcategory_li
     page = 1
 
     print( "INFO: parsing page {} / {}".format( page, num_pages ) )
+
+    exit()
 
     parse_page( driver, f, category_handle, category_name, subcategory_handle, subcategory_name )
 
