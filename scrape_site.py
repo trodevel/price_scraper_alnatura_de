@@ -105,27 +105,13 @@ def determine_categories( driver ):
 
 def determine_subcategories( driver ):
 
-    d1 = driver.find_element_by_class_name( 'search-service-rsFacetedProductList' )
+    d1 = driver.find_element_by_class_name( 'products-sub-categories' )
 
-    d2 = d1.find_element_by_class_name( 'search-service-hideInMobileView' )
+    d2 = d1.find_element_by_css_selector( "div[class='products-sub-categories__container swiper-container']" )
 
-    d3 = d2.find_element_by_class_name( 'search-service-rsFacetGroupListContainer' )
+    d3 = d2.find_element_by_css_selector( "div[class='products-sub-categories__items swiper-wrapper']" )
 
-    d4 = d3.find_element_by_class_name( 'search-service-navFacetGroupContainerFacetOptionList' )
-
-    if d4 == None:
-        print( "FATAL: cannot find sub-categories" )
-        exit()
-
-    d5 = d4.find_element_by_class_name( 'search-service-navFacetGroupList' )
-
-    d6 = helpers.find_element_by_tag_and_class_name( d5, 'ul', 'search-service-rsFacetGroupContainerFacetOptionList search-service-rsFacetGroupContainerIntendedFacetOption' )
-
-    if d6 == None:
-        print( "FATAL: cannot find sub-categories" )
-        exit()
-
-    elements = d6.find_elements_by_class_name( 'search-service-rsFacetGroupContainerCategoryFacetOption' )
+    elements = d3.find_elements_by_css_selector( "div[class='products-sub-categories__item swiper-slide']" )
 
     print( "INFO: found {} sub categories".format( len( elements ) ) )
 
@@ -140,7 +126,7 @@ def determine_subcategories( driver ):
         s2 = s.find_element_by_tag_name( "a" )
 
         link = s2.get_attribute( 'href' )
-        name = s2.get_attribute( 'title' )
+        name = s2.text
 
         if link == None:
             print( "WARNING: empty link {}, ignoring".format( s2 ) )
@@ -237,6 +223,8 @@ def parse_subcategory( driver, f, category_handle, category_name, subcategory_li
 
     helpers.wait_for_page_load( driver )
 
+    exit()
+
     num_pages = determine_number_of_pages( driver )
 
     print( "INFO: number of pages {} on {}".format( num_pages, subcategory_link ) )
@@ -308,8 +296,6 @@ accept_banner( driver )
 helpers.sleep(5)
 
 links = determine_categories( driver )
-
-exit()
 
 num_links = len( links )
 
