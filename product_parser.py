@@ -63,11 +63,28 @@ def parse_product_details( product ):
     d = parse_product_offer( div )
     return a + ";" + b + ";" + c + ";" + d
 
+def parse_product_brand_and_name( product ):
+    d1 = product.find_element_by_class_name( 'product-stage' )
+    d2 = d1.find_element_by_class_name( 'product-stage__container' )
+    d3 = d2.find_element_by_class_name( 'product-stage__content' )
+    d4 = d3.find_element_by_class_name( 'product-stage__basic' )
+    d5 = d4.find_element_by_class_name( 'product-stage__product-name' )
+    d6_1 = d5.find_element_by_class_name( 'product-stage__product-brand' )
+
+    brand = d6_1.text
+
+    d6_2 = d5.find_element_by_class_name( 'product-stage__product-title' )
+    d7 = d6_2.find_element_by_tag_name( 'span' )
+
+    name = d7.text
+
+    return brand + ";" + name
+
 def parse_product( product ):
 
     pic = parse_product_pic( product )
     #details = parse_product_details( product )
-    details = ""
+    details = parse_product_brand_and_name( product )
 
     res = details + ";" + pic
 
