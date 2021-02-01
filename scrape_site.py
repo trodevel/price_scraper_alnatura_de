@@ -141,6 +141,38 @@ def determine_subcategories( driver ):
 
 ##########################################################
 
+def determine_products( driver ):
+
+    d1 = driver.find_element_by_css_selector( "div[class='search-results-container container']" )
+
+    d2 = d1.find_element_by_css_selector( "div[class='row search-results-wrapper']" )
+
+    elements = d2.find_elements_by_class_name( 'search-results-item' )
+
+    print( "INFO: found {} elements".format( len( elements ) ) )
+
+    links = []
+
+    for e in elements:
+
+        e1 = e.find_element_by_class_name( 'product-card' )
+
+        link = e1.get_attribute( 'href' )
+
+        if link == None:
+            print( "WARNING: empty link {}, ignoring".format( s2 ) )
+            continue
+
+        link = harmonize_link( link )
+
+        print( "DEBUG: determine_products: {}".format( link ) )
+
+        links.append( link )
+
+    return links
+
+##########################################################
+
 def determine_number_of_pages( driver ):
 
     try:
@@ -149,7 +181,6 @@ def determine_number_of_pages( driver ):
             EC.presence_of_element_located((By.CLASS_NAME, "pagination-wrapper"))
             )
 
-        i1 = driver.find_element_by_class_name( 'pagination-wrapper' )
 
         i2 = i1.find_element_by_id( 'pagination' )
 
@@ -179,21 +210,25 @@ def extract_handle_from_url( url ):
 
 ##########################################################
 
-def parse_page( driver, f, category_handle, category_name, subcategory_handle, subcategory_name ):
+def parse_product( driver, f, category_handle, category_name, subcategory_handle, subcategory_name, product_url ):
 
-    d1 = driver.find_element_by_css_selector( "div[class='search-results-container container']" )
+    driver.get( product_url )
 
-    d2 = d1.find_element_by_css_selector( "div[class='row search-results-wrapper']" )
+    helpers.wait_for_page_load( driver )
 
-    elements = d2.find_elements_by_class_name( 'search-results-item' )
-
-    print( "INFO: found {} elements".format( len( elements ) ) )
-
-#    for e in elements:
 #        p = product_parser.parse_product( e )
 #        line = category_handle + ';' + subcategory_handle + ';' + category_name + ';' + subcategory_name + ';' + p + "\n"
 #        f.write( line )
-#        print( '.', end='', flush=True )
+
+##########################################################
+
+def parse_page( driver, f, category_handle, category_name, subcategory_handle, subcategory_name ):
+
+    product_urls = determine_products( driver )
+
+    for e in product_urls:
+
+        parse_product( driver, f, category_handle, category_name, subcategory_handle, subcategory_name, e )
 
     print()
 
