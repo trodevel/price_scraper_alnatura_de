@@ -216,9 +216,11 @@ def parse_product( driver, f, category_handle, category_name, subcategory_handle
 
     helpers.wait_for_page_load( driver )
 
-#        p = product_parser.parse_product( e )
-#        line = category_handle + ';' + subcategory_handle + ';' + category_name + ';' + subcategory_name + ';' + p + "\n"
-#        f.write( line )
+    d1 = driver.find_element_by_class_name( 'product-detail-page' )
+
+    p = product_parser.parse_product( d1 )
+    line = category_handle + ';' + subcategory_handle + ';' + category_name + ';' + subcategory_name + ';' + p + "\n"
+    f.write( line )
 
 ##########################################################
 
