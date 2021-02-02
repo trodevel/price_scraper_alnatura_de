@@ -155,7 +155,7 @@ def determine_products( driver ):
 
     for e in elements:
 
-        e1 = e.find_element_by_class_name( 'product-card' )
+        e1 = e.find_element_by_class_name( 'product-teaser' )
 
         link = e1.get_attribute( 'href' )
 
