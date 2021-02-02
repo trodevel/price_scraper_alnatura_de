@@ -56,12 +56,18 @@ def parse_product_offer( p ):
     return ";;"
 
 def parse_product_details( product ):
-    div = product.find_element_by_class_name( 'search-service-productDetails' )
-    a = parse_product_title( div )
-    b = parse_product_grammage( div )
-    c = parse_product_price( div )
-    d = parse_product_offer( div )
-    return a + ";" + b + ";" + c + ";" + d
+    d1 = product.find_element_by_css_selector( "div[class='tab-box js-tabs']" )
+    d2 = d1.find_element_by_class_name( 'tab-box__content' )
+    d3 = d2.find_element_by_css_selector( "div[class='tab-box__pane tab-box__pane--features js-tabs__content']" )
+    d4 = d3.find_element_by_class_name( 'tab-box__column-two' )
+    d5 = d4.find_element_by_class_name( 'product__information-items' )
+
+    #a = parse_product_title( div )
+    #b = parse_product_grammage( div )
+    #c = parse_product_price( div )
+    #d = parse_product_offer( div )
+    #return a + ";" + b + ";" + c + ";" + d
+    return ""
 
 def parse_product_brand_and_name( product ):
     d1 = product.find_element_by_class_name( 'product-stage' )
@@ -83,9 +89,9 @@ def parse_product_brand_and_name( product ):
 def parse_product( product ):
 
     pic = parse_product_pic( product )
-    #details = parse_product_details( product )
-    details = parse_product_brand_and_name( product )
+    details = parse_product_details( product )
+    name = parse_product_brand_and_name( product )
 
-    res = details + ";" + pic
+    res = name + ";" + details + ";" + pic
 
     return res.replace( "\n", "<br>" )
