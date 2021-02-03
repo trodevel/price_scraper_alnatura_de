@@ -93,7 +93,7 @@ def determine_categories( driver ):
 
         print( "DEBUG: determine_categories: {} - {}".format( link, name ) )
 
-        if link.find( "frische" ) == -1 and DEBUG_CATEGORY == True:
+        if link.find( "pflanzensamen" ) == -1 and DEBUG_CATEGORY == True:
             print( "DEBUG: temporary ignoring" )
             continue
 
@@ -215,6 +215,10 @@ def parse_product( driver, f, category_handle, category_name, subcategory_handle
     driver.get( product_url )
 
     helpers.wait_for_page_load( driver )
+
+    if helpers.does_class_exist( driver, 'product-detail-page' ) == False:
+        print( "WARNING: cannot find product on {}".format( product_url ) )
+        return
 
     d1 = driver.find_element_by_class_name( 'product-detail-page' )
 
