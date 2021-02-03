@@ -26,7 +26,9 @@ def parse_product_grammage( p ):
     return v
 
 def parse_product_price( p ):
-    return helpers.get_optional_element_text_by_class_name( p, 'search-service-productPrice', '-1' )
+    d = p.find_element_by_class_name( 'product__usage' )
+
+    return d.text
 
 def parse_product_offer_1st_duration( p ):
     return helpers.get_optional_element_text_by_class_name( p, 'search-service-productOfferDuration', '' )
@@ -71,10 +73,10 @@ def parse_product_details( product ):
 
     #a = parse_product_title( div )
     b = parse_product_grammage( d5 )
-    #c = parse_product_price( div )
+    c = parse_product_price( d5 )
     #d = parse_product_offer( div )
     #return a + ";" + b + ";" + c + ";" + d
-    return b
+    return b + ";" + c
 
 def parse_product_brand_and_name( product ):
     d1 = product.find_element_by_class_name( 'product-stage' )
