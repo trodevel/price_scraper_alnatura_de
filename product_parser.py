@@ -15,8 +15,15 @@ def parse_product_title( p ):
     return helpers.to_csv_conform_string( div.text )
 
 def parse_product_grammage( p ):
-    div = p.find_element_by_class_name( 'search-service-productGrammage' )
-    return div.text
+    elems = p.find_elements_by_class_name( 'product__storage' )
+
+    if len( elems ) < 2:
+        print( "WARNING: cannot obtain grammage" )
+        return ""
+
+    v = elems[1].text
+
+    return v
 
 def parse_product_price( p ):
     return helpers.get_optional_element_text_by_class_name( p, 'search-service-productPrice', '-1' )
@@ -63,11 +70,11 @@ def parse_product_details( product ):
     d5 = d4.find_element_by_class_name( 'product__information-items' )
 
     #a = parse_product_title( div )
-    #b = parse_product_grammage( div )
+    b = parse_product_grammage( d5 )
     #c = parse_product_price( div )
     #d = parse_product_offer( div )
     #return a + ";" + b + ";" + c + ";" + d
-    return ""
+    return b
 
 def parse_product_brand_and_name( product ):
     d1 = product.find_element_by_class_name( 'product-stage' )
