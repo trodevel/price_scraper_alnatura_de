@@ -10,10 +10,6 @@ def parse_product_pic( product ):
     img = d4.find_element_by_tag_name( 'img' )
     return img.get_attribute( "src" )
 
-def parse_product_title( p ):
-    div = p.find_element_by_class_name( 'LinesEllipsis  ' )
-    return helpers.to_csv_conform_string( div.text )
-
 def parse_product_grammage( p ):
     elems = p.find_elements_by_class_name( 'product__storage' )
 
@@ -30,40 +26,6 @@ def parse_product_price( p ):
 
     return d.text
 
-def parse_product_offer_1st_duration( p ):
-    return helpers.get_optional_element_text_by_class_name( p, 'search-service-productOfferDuration', '' )
-
-def parse_product_offer_1st_original_price( p ):
-    return helpers.get_optional_element_text_by_class_name( p, 'search-service-productOfferOriginalPrice', '' )
-
-def parse_product_offer_1st( p ):
-    name = 'search-service-productOfferFirstLine'
-    if helpers.does_class_exist( p, name ):
-        div = p.find_element_by_class_name( name )
-        a = parse_product_offer_1st_duration( div )
-        b = parse_product_offer_1st_original_price( div )
-        return a + ";" + b
-    return ";"
-
-def parse_product_offer_2nd_product_offer_price( p ):
-    return helpers.get_optional_element_text_by_class_name( p, 'search-service-productOfferPrice', '' )
-
-def parse_product_offer_2nd( p ):
-    name = 'search-service-productOfferSecondLine'
-    if helpers.does_class_exist( p, name ):
-        div = p.find_element_by_class_name( name )
-        return parse_product_offer_2nd_product_offer_price( div )
-    return ""
-
-def parse_product_offer( p ):
-    name = 'search-service-productOffer'
-    if helpers.does_class_exist( p, name ):
-        div = p.find_element_by_class_name( name )
-        a = parse_product_offer_1st( div )
-        b = parse_product_offer_2nd( div )
-        return a + ";" + b
-    return ";;"
-
 def parse_product_details( product ):
     d1 = product.find_element_by_css_selector( "div[class='tab-box js-tabs']" )
     d2 = d1.find_element_by_class_name( 'tab-box__content' )
@@ -71,11 +33,8 @@ def parse_product_details( product ):
     d4 = d3.find_element_by_class_name( 'tab-box__column-two' )
     d5 = d4.find_element_by_class_name( 'product__information-items' )
 
-    #a = parse_product_title( div )
     b = parse_product_grammage( d5 )
     c = parse_product_price( d5 )
-    #d = parse_product_offer( div )
-    #return a + ";" + b + ";" + c + ";" + d
     return b + ";" + c
 
 def parse_product_brand_and_name( product ):
