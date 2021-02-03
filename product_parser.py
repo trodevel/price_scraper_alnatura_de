@@ -1,7 +1,5 @@
 #!/usr/bin/python3
 
-import helpers
-
 def parse_product_pic( product ):
     d1 = product.find_element_by_class_name( 'product-stage' )
     d2 = d1.find_element_by_class_name( 'product-stage__container' )
