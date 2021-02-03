@@ -149,7 +149,7 @@ def determine_products( driver ):
 
     elements = d2.find_elements_by_class_name( 'search-results-item' )
 
-    print( "INFO: found {} elements".format( len( elements ) ) )
+    print( "INFO: found {} products".format( len( elements ) ) )
 
     links = []
 
