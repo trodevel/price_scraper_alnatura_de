@@ -220,6 +220,10 @@ def parse_product( driver, f, category_handle, category_name, subcategory_handle
         print( "WARNING: cannot find product on {}".format( product_url ) )
         return
 
+    if helpers.does_css_selector_exist( driver, "div[class='message message--error']" ) == True:
+        print( "ERROR: technical problem on page {}".format( product_url ) )
+        return
+
     d1 = driver.find_element_by_class_name( 'product-detail-page' )
 
     p = product_parser.parse_product( d1 )
