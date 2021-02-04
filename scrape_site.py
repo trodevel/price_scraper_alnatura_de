@@ -151,6 +151,10 @@ def determine_products( driver ):
 
     print( "INFO: found {} products".format( len( elements ) ) )
 
+    if len( elements ) == 0:
+        print( "FATAL: no products found on page" )
+        exit()
+
     links = []
 
     for e in elements:
