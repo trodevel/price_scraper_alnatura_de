@@ -179,8 +179,6 @@ def determine_products( driver ):
 
 def determine_number_of_pages( driver ):
 
-    try:
-
         element = WebDriverWait(driver, 15).until(
             EC.presence_of_element_located((By.CLASS_NAME, "pagination-wrapper"))
             )
@@ -198,10 +196,6 @@ def determine_number_of_pages( driver ):
         last = elems[-1]
 
         return int( last.text )
-
-    except:
-
-        return 1
 
 ##########################################################
 
