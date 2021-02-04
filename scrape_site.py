@@ -185,7 +185,10 @@ def determine_number_of_pages( driver ):
 
     i2 = element.find_element_by_id( 'pagination' )
 
-    active = i2.find_element_by_class_name( 'active_page' )
+    # we need to wait for element
+    active = WebDriverWait(driver, 15).until(
+        EC.presence_of_element_located((By.CLASS_NAME, "active_page"))
+        )
 
     elems = i2.find_elements_by_class_name( 'page_button' )
 
