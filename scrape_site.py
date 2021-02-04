@@ -185,8 +185,7 @@ def determine_number_of_pages( driver ):
             EC.presence_of_element_located((By.CLASS_NAME, "pagination-wrapper"))
             )
 
-
-        i2 = i1.find_element_by_id( 'pagination' )
+        i2 = element.find_element_by_id( 'pagination' )
 
         active = i2.find_element_by_class_name( 'active_page' )
 
