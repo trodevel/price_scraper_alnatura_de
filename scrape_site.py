@@ -179,23 +179,23 @@ def determine_products( driver ):
 
 def determine_number_of_pages( driver ):
 
-        element = WebDriverWait(driver, 15).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "pagination-wrapper"))
-            )
+    element = WebDriverWait(driver, 15).until(
+        EC.presence_of_element_located((By.CLASS_NAME, "pagination-wrapper"))
+        )
 
-        i2 = element.find_element_by_id( 'pagination' )
+    i2 = element.find_element_by_id( 'pagination' )
 
-        active = i2.find_element_by_class_name( 'active_page' )
+    active = i2.find_element_by_class_name( 'active_page' )
 
-        elems = i2.find_elements_by_class_name( 'page_button' )
+    elems = i2.find_elements_by_class_name( 'page_button' )
 
-        if len( elems ) == 0:
-            print( "WARNING: no multiple pages found, using active page" )
-            return int( active.text )
+    if len( elems ) == 0:
+        print( "WARNING: no multiple pages found, using active page" )
+        return int( active.text )
 
-        last = elems[-1]
+    last = elems[-1]
 
-        return int( last.text )
+    return int( last.text )
 
 ##########################################################
 
