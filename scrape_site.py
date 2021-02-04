@@ -147,6 +147,10 @@ def determine_products( driver ):
 
     d2 = d1.find_element_by_css_selector( "div[class='row search-results-wrapper']" )
 
+    element = WebDriverWait(driver, 15).until(
+        EC.presence_of_element_located((By.CLASS_NAME, "search-results-item" ))
+        )
+
     elements = d2.find_elements_by_class_name( 'search-results-item' )
 
     print( "INFO: found {} products".format( len( elements ) ) )
