@@ -289,8 +289,8 @@ def parse_category( driver, f, category_link, category_name ):
 
     helpers.wait_for_page_load( driver )
 
-    # "angebot" page has another structure, so we'll not bother us with parsing sub-categories
-    if category_link.find( "/angebot" ) != -1:
+    # "ostern" page has another structure, so we'll not bother us with parsing sub-categories
+    if category_link.find( "/ostern" ) != -1:
         parse_page( driver, f, category_handle, category_name, category_handle, category_name )
         return
 
